@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module external.linked.project.path="$MODULE_DIR$" external.root.project.path="$MODULE_DIR$/.." external.system.id="GRADLE" external.system.module.group="trunk" external.system.module.version="unspecified" type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$/../contactscraper">
+      <sourceFolder url="file://$MODULE_DIR$/../contactscraper/src/androidTest" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/../contactscraper/src/main/res" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/../contactscraper/src/main/java" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/../contactscraper/build" />
+    </content>
+    <content url="file://$MODULE_DIR$" />
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>
+
