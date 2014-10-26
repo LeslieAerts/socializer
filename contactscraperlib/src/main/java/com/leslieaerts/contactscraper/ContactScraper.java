@@ -9,16 +9,19 @@ import java.util.List;
  */
 public class ContactScraper {
 
+    private ScrapeSystem scraper;
     public ContactScraper() {
 
     }
 
     public PhoneContact getPhoneContactByName(String firstName, String lastName) {
         throw new UnsupportedOperationException();
+        return scraper.getPhoneContactByName(firstName,lastName);
     }
 
     public List<PhoneContact> getAllPhoneContacts() {
         throw new UnsupportedOperationException();
+
     }
 
 }

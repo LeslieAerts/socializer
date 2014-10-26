@@ -20,5 +20,6 @@ android {
 }
 
 dependencies {
+    compile project(':contactscraperlib')
     compile fileTree(dir: 'libs', include: ['*.jar'])
 }

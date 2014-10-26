@@ -2,6 +2,7 @@ package com.leslieaerts.contactscraper.domain;
 
 import android.graphics.drawable.Drawable;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -13,8 +14,15 @@ public class PhoneContact {
     private String firstName;
     private String lastName;
     private Map<String, String> emailAddress;
-    private Map<String,String> phoneNumbers;
+    private Map<String, String> phoneNumbers;
     private Drawable photo;
+    private String lookupKey;
+
+    public PhoneContact()
+    {
+        this.emailAddress = new HashMap<String, String>();
+        this.phoneNumbers = new HashMap<String, String>();
+    }
 
     public String getFirstName() {
         return firstName;
@@ -34,5 +42,13 @@ public class PhoneContact {
 
     public Drawable getPhoto() {
         return photo;
+    }
+
+    public void setLookupKey(String lookupKey) {
+        this.lookupKey = lookupKey;
+    }
+
+    public String getLookupKey() {
+        return lookupKey;
     }
 }
