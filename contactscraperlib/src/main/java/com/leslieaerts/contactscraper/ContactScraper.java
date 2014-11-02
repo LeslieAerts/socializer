@@ -15,7 +15,6 @@ public class ContactScraper {
     }
 
     public PhoneContact getPhoneContactByName(String firstName, String lastName) {
-        throw new UnsupportedOperationException();
         return scraper.getPhoneContactByName(firstName,lastName);
     }
 
