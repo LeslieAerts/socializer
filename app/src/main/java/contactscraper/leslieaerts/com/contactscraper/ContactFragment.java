@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.leslieaerts.contactscraper.ContactScraper;
 import com.leslieaerts.contactscraper.domain.PhoneContact;
 
 import java.util.List;
@@ -31,6 +32,6 @@ public class ContactFragment extends Fragment {
     }
 
     public void setContactList(List<PhoneContact> allPhoneContacts) {
-
+        ContactScraper scraper = ContactScraper.getInstance(getActivity());
     }
 }

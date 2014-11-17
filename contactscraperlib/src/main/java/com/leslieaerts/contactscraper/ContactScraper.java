@@ -1,5 +1,7 @@
 package com.leslieaerts.contactscraper;
 
+import android.content.Context;
+
 import com.leslieaerts.contactscraper.domain.PhoneContact;
 
 import java.util.List;
@@ -9,18 +11,32 @@ import java.util.List;
  */
 public class ContactScraper {
 
-    private ScrapeSystem scraper;
-    public ContactScraper() {
+    private static ScrapeSystem scraper;
+    private static ContactScraper instance;
+
+    public ContactScraper(Context context)
+    {
+        scraper = new ScrapeSystem(context);
+    }
+
+    public static ContactScraper getInstance(Context context) {
+        if (instance == null) {
+            instance = new ContactScraper(context);
+
+        }
+        return instance;
+    }
+
+    public static void initialize(Context context) {
 
     }
 
     public PhoneContact getPhoneContactByName(String firstName, String lastName) {
-        return scraper.getPhoneContactByName(firstName,lastName);
+        return scraper.getPhoneContactByName(firstName, lastName);
     }
 
-    public List<PhoneContact> getAllPhoneContacts() {
-        throw new UnsupportedOperationException();
-
+    public static List<PhoneContact> getAllPhoneContacts() {
+        return scraper.getAllPhoneContacts();
     }
 
 }

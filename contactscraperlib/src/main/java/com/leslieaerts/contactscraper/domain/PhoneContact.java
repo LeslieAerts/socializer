@@ -73,4 +73,10 @@ public class PhoneContact {
     public void addPhoneNumber(String phoneNumber, String phoneNumberType) {
         phoneNumbers.put(phoneNumberType,phoneNumber);
     }
+
+    public void addEmailAddress(String s) {
+        emailAddress.put("",s);
+        throw new UnsupportedOperationException();
+
+    }
 }

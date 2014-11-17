@@ -10,7 +10,7 @@ import android.provider.ContactsContract;
 import android.provider.ContactsContract.Contacts;
 
 import com.leslieaerts.contactscraper.domain.PhoneContact;
-
+import android.provider.ContactsContract.CommonDataKinds.Phone;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,39 +47,51 @@ public class ScrapeSystem {
         List<PhoneContact> contacts = new ArrayList<PhoneContact>();
 
         ContentResolver contentResolver = context.getContentResolver();
-        Cursor c = contentResolver.query(Contacts.CONTENT_URI, new String[]{Contacts._ID, Contacts.DISPLAY_NAME_PRIMARY, Contacts.PHOTO_ID}, null, null, null);
+        Cursor idCursor = contentResolver.query(Contacts.CONTENT_URI, new String[]{Contacts._ID, Contacts.DISPLAY_NAME_PRIMARY, Contacts.PHOTO_ID}, null, null, null);
 
-        if (c.moveToFirst()) {
-            while (c.moveToNext()) {
-                String contactId = c.getString(c.getColumnIndex(Contacts._ID));
-                String name = c.getString(c.getColumnIndex(Contacts.DISPLAY_NAME_PRIMARY));
-                String photoId = c.getString(c.getColumnIndex(Contacts.PHOTO_ID));
+        if (idCursor.moveToFirst()) {
+            while (idCursor.moveToNext()) {
+                String contactId = idCursor.getString(idCursor.getColumnIndex(Contacts._ID));
+                String name = idCursor.getString(idCursor.getColumnIndex(Contacts.DISPLAY_NAME_PRIMARY));
+
+                String photoId = idCursor.getString(idCursor.getColumnIndex(Contacts.PHOTO_ID));
                 Drawable photo = getPhoneContactPhoto(photoId);
-
-                String phoneNumber = null;
-                String phoneNumberType = null;
-                Cursor c2 = contentResolver.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, new String[]{ContactsContract.CommonDataKinds.Phone.NUMBER, ContactsContract.CommonDataKinds.Phone.TYPE}, ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?", new String[]{contactId}, null);
-                if (c2.moveToFirst()) {
-                    while (c2.moveToNext()) {
-
-                        phoneNumber = c2.getString(c2.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-
-                        phoneNumberType = c2.getString(c2.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE));
-                    }
-                }
-                c2.close();
-
-
 
                 PhoneContact contact = new PhoneContact();
                 contact.setContactId(contactId);
-                contact.addPhoneNumber(phoneNumber,phoneNumberType);
+
                 contact.setFirstName(name);
                 contact.setPhoto(photo);
+                String phoneNumber = null;
+                String phoneNumberType = null;
+
+                //Phone stuff
+                Cursor phoneCursor = contentResolver.query(Phone.CONTENT_URI, new String[]{Phone.NUMBER, Phone.TYPE}, Phone.CONTACT_ID + " = ?", new String[]{contactId}, null);
+                if (phoneCursor.moveToFirst()) {
+                    while (phoneCursor.moveToNext()) {
+                        phoneNumber = phoneCursor.getString(phoneCursor.getColumnIndex(Phone.NUMBER));
+                        phoneNumberType = phoneCursor.getString(phoneCursor.getColumnIndex(Phone.TYPE));
+                        contact.addPhoneNumber(phoneNumber, phoneNumberType);
+                    }
+                }
+                phoneCursor.close();
+
+                //Email stuff
+                Cursor emailCursor = contentResolver.query(Phone.CONTENT_URI, new String[]{Phone.NUMBER, Phone.TYPE}, Phone.CONTACT_ID + " = ?", new String[]{contactId}, null);
+                if (emailCursor.moveToFirst()) {
+                    while (emailCursor.moveToNext()) {
+                        phoneNumber = emailCursor.getString(emailCursor.getColumnIndex(Phone.NUMBER));
+                        phoneNumberType = emailCursor.getString(emailCursor.getColumnIndex(Phone.TYPE));
+                        contact.addEmailAddress("");
+                    }
+                }
+                phoneCursor.close();
+
+
                 contacts.add(contact);
             }
         }
-        c.close();
+        idCursor.close();
 
         return contacts;
     }
@@ -88,12 +100,15 @@ public class ScrapeSystem {
         throw new UnsupportedOperationException();
     }
 
-    public PhoneContact getPhoneContactByName(String firstName, String lastName) {
+    public String getContactEmail(String key) {
+        return null;
+    }
 
+    public PhoneContact getPhoneContactByName(String name) {
         PhoneContact contact = new PhoneContact();
 
         ContentResolver contentResolver = context.getContentResolver();
-        Cursor c = contentResolver.query(Contacts.CONTENT_URI, new String[]{Contacts.LOOKUP_KEY}, Contacts.DISPLAY_NAME_PRIMARY + "LIKE ?", new String[]{firstName}, null);
+        Cursor c = contentResolver.query(Contacts.CONTENT_URI, new String[]{Contacts.LOOKUP_KEY}, Contacts.DISPLAY_NAME_PRIMARY + "LIKE ?", new String[]{name}, null);
 
         if (c.moveToFirst()) {
 

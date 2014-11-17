@@ -15,7 +15,6 @@ import java.util.List;
 
 public class ExampleActivity extends Activity {
 
-    ContactScraper scraper = new ContactScraper();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,11 +25,11 @@ public class ExampleActivity extends Activity {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
 
         ContactFragment contactFragment = new ContactFragment();
+
+        ContactScraper scraper = ContactScraper.getInstance(getApplicationContext());
         List<PhoneContact> allPhoneContacts = scraper.getAllPhoneContacts();
         contactFragment.setContactList(allPhoneContacts);
-
         transaction.add(R.id.fragment_container,contactFragment);
-
     }
 
 
