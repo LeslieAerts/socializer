@@ -1,16 +1,20 @@
-package com.leslieaerts.contactscraper;
+package com.leslieaerts.contactscraper.util;
 
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.Contacts;
 
 import com.leslieaerts.contactscraper.domain.PhoneContact;
+
 import android.provider.ContactsContract.CommonDataKinds.Phone;
+
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,8 +39,14 @@ public class ScrapeSystem {
         this.context = context;
     }
 
-    public Bitmap getContactPhotoByLookupKey(String key) {
-        throw new UnsupportedOperationException();
+    public Bitmap getContactPhotoByContactId(String id) {
+        Uri contactUri = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_URI, id);
+        InputStream photoInputStream = ContactsContract.Contacts.openContactPhotoInputStream(context.getContentResolver(), contactUri);
+        Bitmap photo = BitmapFactory.decodeStream(photoInputStream);
+        if (photo != null) {
+            return photo;
+        }
+        return null;
     }
 
     private long GetContactLookupKeyFromName(String name) {
@@ -54,13 +64,13 @@ public class ScrapeSystem {
                 String contactId = idCursor.getString(idCursor.getColumnIndex(Contacts._ID));
                 String name = idCursor.getString(idCursor.getColumnIndex(Contacts.DISPLAY_NAME_PRIMARY));
 
-                String photoId = idCursor.getString(idCursor.getColumnIndex(Contacts.PHOTO_ID));
-                Drawable photo = getPhoneContactPhoto(photoId);
+                //String photoId = idCursor.getString(idCursor.getColumnIndex(Contacts.PHOTO_ID));
+                Bitmap photo = getContactPhotoByContactId(contactId);
 
                 PhoneContact contact = new PhoneContact();
                 contact.setContactId(contactId);
 
-                contact.setFirstName(name);
+                contact.setFullName(name);
                 contact.setPhoto(photo);
                 String phoneNumber = null;
                 String phoneNumberType = null;
@@ -76,13 +86,16 @@ public class ScrapeSystem {
                 }
                 phoneCursor.close();
 
+
                 //Email stuff
+                String emailAddress = null;
+                String emailType = null;
                 Cursor emailCursor = contentResolver.query(Phone.CONTENT_URI, new String[]{Phone.NUMBER, Phone.TYPE}, Phone.CONTACT_ID + " = ?", new String[]{contactId}, null);
                 if (emailCursor.moveToFirst()) {
                     while (emailCursor.moveToNext()) {
-                        phoneNumber = emailCursor.getString(emailCursor.getColumnIndex(Phone.NUMBER));
-                        phoneNumberType = emailCursor.getString(emailCursor.getColumnIndex(Phone.TYPE));
-                        contact.addEmailAddress("");
+                        emailAddress = emailCursor.getString(emailCursor.getColumnIndex(ContactsContract.CommonDataKinds.Email.ADDRESS));
+                        emailType = emailCursor.getString(emailCursor.getColumnIndex(ContactsContract.CommonDataKinds.Email.TYPE));
+                        contact.addEmailAddress(emailType, emailAddress);
                     }
                 }
                 phoneCursor.close();
@@ -94,10 +107,6 @@ public class ScrapeSystem {
         idCursor.close();
 
         return contacts;
-    }
-
-    private Drawable getPhoneContactPhoto(String photoId) {
-        throw new UnsupportedOperationException();
     }
 
     public String getContactEmail(String key) {

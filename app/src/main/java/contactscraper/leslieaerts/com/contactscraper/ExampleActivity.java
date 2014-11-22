@@ -1,6 +1,7 @@
 package contactscraper.leslieaerts.com.contactscraper;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import java.util.List;
 
 public class ExampleActivity extends Activity {
 
+    ContactFragment contactFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,14 +26,9 @@ public class ExampleActivity extends Activity {
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
 
-        ContactFragment contactFragment = new ContactFragment();
-
-        ContactScraper scraper = ContactScraper.getInstance(getApplicationContext());
-        List<PhoneContact> allPhoneContacts = scraper.getAllPhoneContacts();
-        contactFragment.setContactList(allPhoneContacts);
-        transaction.add(R.id.fragment_container,contactFragment);
+        contactFragment = new ContactFragment();
+        transaction.replace(R.id.fragment_container, contactFragment).commit();
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

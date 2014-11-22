@@ -3,6 +3,7 @@ package com.leslieaerts.contactscraper;
 import android.content.Context;
 
 import com.leslieaerts.contactscraper.domain.PhoneContact;
+import com.leslieaerts.contactscraper.util.ScrapeSystem;
 
 import java.util.List;
 
@@ -32,7 +33,7 @@ public class ContactScraper {
     }
 
     public PhoneContact getPhoneContactByName(String firstName, String lastName) {
-        return scraper.getPhoneContactByName(firstName, lastName);
+        return scraper.getPhoneContactByName(firstName);
     }
 
     public static List<PhoneContact> getAllPhoneContacts() {
