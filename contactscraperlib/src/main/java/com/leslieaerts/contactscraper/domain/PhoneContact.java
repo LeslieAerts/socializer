@@ -1,11 +1,9 @@
 package com.leslieaerts.contactscraper.domain;
 
 import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Created by Leslie on 25-10-2014.
@@ -13,8 +11,7 @@ import java.util.Set;
 public class PhoneContact {
 
 
-    private String firstName;
-    private String lastName;
+    private String displayName;
     private Map<String, String> emailAddresses;
     private Map<String, String> phoneNumbers;
     private Bitmap photo;
@@ -26,13 +23,13 @@ public class PhoneContact {
         this.phoneNumbers = new HashMap<String, String>();
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getDisplayName() {
+        return displayName;
     }
 
-    public String getLastName() {
-        return lastName;
-    }
+//    public String getLastName() {
+//        return lastName;
+//    }
 
     public Map<String, String> getEmailAddresses() {
         return emailAddresses;
@@ -54,16 +51,8 @@ public class PhoneContact {
         return lookupKey;
     }
 
-    public void setFullName(String fullName) {
-        String[] split = fullName.split(" ");
-
-        for (int i = 0; i < split.length; i++) {
-            if (i == 0) {
-                this.firstName = split[0];
-            } else {
-                this.lastName += " " + split[1];
-            }
-        }
+    public void setDisplayName(String fullName) {
+        this.displayName = fullName;
     }
 
     public void setContactId(String contactId) {
@@ -101,5 +90,13 @@ public class PhoneContact {
             break;
         }
         return emailAddress;
+    }
+
+    public void addPhoneNumbers(Map<String, String> phoneMap) {
+        this.phoneNumbers.putAll(phoneMap);
+    }
+
+    public void addEmailAddresses(Map<String, String> emailsMap) {
+        this.emailAddresses.putAll(emailsMap);
     }
 }

@@ -69,11 +69,10 @@ public class ContactAdapter extends BaseAdapter {
             holder = (ContactHolder) convertView.getTag();
         }
         PhoneContact contact = contacts.get(position);
-        holder.contactName.setText(contact.getFirstName());
+        holder.contactName.setText(contact.getDisplayName());
         holder.contactPhone.setText(contact.getMainPhoneNumber());
         holder.contactEmail.setText(contact.getMainEmailAddress());
         holder.contactPhoto.setImageBitmap(contact.getPhoto());
-
 
         return convertView;
     }
