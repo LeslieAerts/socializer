@@ -23,23 +23,18 @@ import java.util.Map;
  * Created by Leslie on 26-10-2014.
  */
 public class ScrapeSystem {
-    private static final String[] BASIC_CONTACT_PROJECTION = {
-            Contacts._ID,
-            Contacts.LOOKUP_KEY,
-            Contacts.DISPLAY_NAME_PRIMARY
-    };
 
-    private static final String[] DETAILED_CONTACT_PROJECTION = {
-            ContactsContract.Data._ID,
-            ContactsContract.Data.LOOKUP_KEY,
-            ContactsContract.Data.DISPLAY_NAME_PRIMARY
-    };
     private final Context context;
 
     public ScrapeSystem(Context context) {
         this.context = context;
     }
 
+    /**
+     * Gets a Bitmap interpretation of contact's photo
+     * @param id
+     * @return
+     */
     public Bitmap getContactPhotoByContactId(String id) {
         Uri contactUri = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_URI, id);
         InputStream photoInputStream = ContactsContract.Contacts.openContactPhotoInputStream(context.getContentResolver(), contactUri);
@@ -50,6 +45,10 @@ public class ScrapeSystem {
         return null;
     }
 
+    /**
+     * Returns a list of every phone contact available on the phone.
+     * @return
+     */
     public List<PhoneContact> getAllPhoneContacts() {
         List<PhoneContact> contacts = new ArrayList<PhoneContact>();
 
@@ -84,6 +83,11 @@ public class ScrapeSystem {
         return contacts;
     }
 
+    /**
+     * Returns a map of all the phone numbers a contact has.
+     * @param contactId
+     * @return
+     */
     private Map<String, String> getContactPhoneNumbersByContactId(String contactId) {
         Map<String, String> phoneNumbers = new HashMap<String, String>();
 
@@ -97,16 +101,21 @@ public class ScrapeSystem {
                 phoneNumbers.put(phoneNumberType, phoneNumber);
             } while (phoneCursor.moveToNext());
         }
+
         phoneCursor.close();
         return phoneNumbers;
     }
 
+    /**
+     * Returns all the email addresses a contact has.
+     * @param contactId
+     * @return
+     */
     private Map<String, String> getContactEmailByContactId(String contactId) {
         Cursor emailCursor = context.getContentResolver().query(ContactsContract.CommonDataKinds.Email.CONTENT_URI, new String[]{Phone.NUMBER, Phone.TYPE}, Phone.CONTACT_ID + " = ?", new String[]{contactId}, null);
         Map<String, String> emails = new HashMap<String, String>();
         if (emailCursor.moveToFirst()) {
             do {
-
                 String emailAddress = null;
                 String emailType = null;
                 emailAddress = emailCursor.getString(emailCursor.getColumnIndex(ContactsContract.CommonDataKinds.Email.ADDRESS));
@@ -118,10 +127,11 @@ public class ScrapeSystem {
         return emails;
     }
 
-    public String getContactEmail(String key) {
-        return null;
-    }
-
+    /**
+     * Get a single contact by name.
+     * @param name
+     * @return
+     */
     public PhoneContact getPhoneContactByName(String name) {
         PhoneContact contact = new PhoneContact();
 
@@ -137,14 +147,7 @@ public class ScrapeSystem {
             c.close();
         }
         return new PhoneContact();
-        // c = contentResolver.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, new String[]{ContactsContract.CommonDataKinds.Phone.  }, Contacts.look+ " = ?", new String[]{firstName}, null);
     }
-
-//    private Cursor createCursor(Uri table, String[] projection, String[] selection)
-//    {
-//        ContentResolver contentResolver = context.getContentResolver();
-//        return contentResolver.query(table, projection, Contacts.DISPLAY_NAME_PRIMARY + "LIKE ?", selection, null);
-//    }
 }
 
 

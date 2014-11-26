@@ -1,6 +1,7 @@
 package com.leslieaerts.contactscraper;
 
 import android.content.Context;
+import android.os.AsyncTask;
 
 import com.leslieaerts.contactscraper.domain.PhoneContact;
 import com.leslieaerts.contactscraper.util.ScrapeSystem;
@@ -15,29 +16,49 @@ public class ContactScraper {
     private static ScrapeSystem scraper;
     private static ContactScraper instance;
 
-    public ContactScraper(Context context)
-    {
+    public ContactScraper(Context context) {
         scraper = new ScrapeSystem(context);
     }
 
     public static ContactScraper getInstance(Context context) {
         if (instance == null) {
             instance = new ContactScraper(context);
-
         }
         return instance;
     }
 
-    public static void initialize(Context context) {
-
+    public PhoneContact getPhoneContactByName(String partialName) {
+        return scraper.getPhoneContactByName(partialName);
     }
 
-    public PhoneContact getPhoneContactByName(String firstName, String lastName) {
-        return scraper.getPhoneContactByName(firstName);
+    static class LoadContactTask extends AsyncTask<Void, Void, Boolean> {
+        List<PhoneContact> allPhoneContacts = null;
+
+        public LoadContactTask() {
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+            allPhoneContacts = scraper.getAllPhoneContacts();
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+        }
     }
 
     public static List<PhoneContact> getAllPhoneContacts() {
         return scraper.getAllPhoneContacts();
     }
 
+    public static void loadPhoneContactsAsync(List<PhoneContact> phoneContacts) {
+
+    }
 }
