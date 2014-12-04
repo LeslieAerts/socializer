@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 
 import com.leslieaerts.contactscraper.domain.PhoneContact;
+import com.leslieaerts.contactscraper.util.ContactListener;
 import com.leslieaerts.contactscraper.util.ScrapeSystem;
 
 import java.util.List;
@@ -12,9 +13,9 @@ import java.util.List;
  * Created by Leslie on 25-10-2014.
  */
 public class ContactScraper {
-
     private static ScrapeSystem scraper;
     private static ContactScraper instance;
+    private static ContactListener contactListener;
 
     public ContactScraper(Context context) {
         scraper = new ScrapeSystem(context);
@@ -31,34 +32,14 @@ public class ContactScraper {
         return scraper.getPhoneContactByName(partialName);
     }
 
-    static class LoadContactTask extends AsyncTask<Void, Void, Boolean> {
-        List<PhoneContact> allPhoneContacts = null;
-
-        public LoadContactTask() {
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... voids) {
-            allPhoneContacts = scraper.getAllPhoneContacts();
-            return true;
-        }
-
-        @Override
-        protected void onPostExecute(Boolean aBoolean) {
-            super.onPostExecute(aBoolean);
-        }
-    }
-
-    public static List<PhoneContact> getAllPhoneContacts() {
-        return scraper.getAllPhoneContacts();
-    }
-
-    public static void loadPhoneContactsAsync(List<PhoneContact> phoneContacts) {
-
+    public static void getAllPhoneContactsAsynchronous() {
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                List<PhoneContact> allPhoneContacts = scraper.getAllPhoneContacts();
+                contactListener.onContactListLoaded(allPhoneContacts);
+            }
+        });
+        t.start();
     }
 }

@@ -42,7 +42,7 @@ public class ContactFragment extends Fragment {
 
     public void setContactList() {
         ContactScraper scraper = ContactScraper.getInstance(getActivity());
-        List<PhoneContact> contacts = scraper.getAllPhoneContacts();
+        List<PhoneContact> contacts = scraper.getAllPhoneContactsAsynchronous();
         list.setAdapter(new ContactAdapter(contacts, getActivity()));
     }
 }

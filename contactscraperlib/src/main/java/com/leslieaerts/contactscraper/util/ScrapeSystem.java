@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.Contacts;
 
@@ -32,6 +33,7 @@ public class ScrapeSystem {
 
     /**
      * Gets a Bitmap interpretation of contact's photo
+     *
      * @param id
      * @return
      */
@@ -47,10 +49,11 @@ public class ScrapeSystem {
 
     /**
      * Returns a list of every phone contact available on the phone.
+     *
      * @return
      */
     public List<PhoneContact> getAllPhoneContacts() {
-        List<PhoneContact> contacts = new ArrayList<PhoneContact>();
+        final List<PhoneContact> contacts = new ArrayList<PhoneContact>();
 
         ContentResolver contentResolver = context.getContentResolver();
         Cursor idCursor = contentResolver.query(Contacts.CONTENT_URI, new String[]{Contacts._ID, Contacts.DISPLAY_NAME_PRIMARY}, null, null, null);
@@ -85,6 +88,7 @@ public class ScrapeSystem {
 
     /**
      * Returns a map of all the phone numbers a contact has.
+     *
      * @param contactId
      * @return
      */
@@ -108,6 +112,7 @@ public class ScrapeSystem {
 
     /**
      * Returns all the email addresses a contact has.
+     *
      * @param contactId
      * @return
      */
@@ -129,6 +134,7 @@ public class ScrapeSystem {
 
     /**
      * Get a single contact by name.
+     *
      * @param name
      * @return
      */
@@ -139,7 +145,6 @@ public class ScrapeSystem {
         Cursor c = contentResolver.query(Contacts.CONTENT_URI, new String[]{Contacts.LOOKUP_KEY}, Contacts.DISPLAY_NAME_PRIMARY + "LIKE ?", new String[]{name}, null);
 
         if (c.moveToFirst()) {
-
             while (c.moveToNext()) {
                 String lookup = c.getString(0);
                 contact.setLookupKey(lookup);
@@ -149,5 +154,3 @@ public class ScrapeSystem {
         return new PhoneContact();
     }
 }
-
-
