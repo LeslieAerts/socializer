@@ -6,12 +6,14 @@ Simple and easy to use library to scrape contacts from your Android phone for yo
 <b>How to use</b>
 
 Simply add this line to your build.gradle:
-
 //TODO: Find out how the GitHub gradle stuff works.
 
-<b>Output</b>
+Create a Socializer object in your project:
 
-PhoneContact
+    Socializer soc = new Socializer(context);
+    List<PhoneContact> contacts = soc.getAllPhoneContacts();
+
+PhoneContact is a class containing (almost) all info an Android contact can have.
 * firstName : String
 * lastName : String
 * contactPhoto : Bitmap
