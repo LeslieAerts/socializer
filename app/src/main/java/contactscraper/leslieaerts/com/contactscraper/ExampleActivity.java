@@ -1,33 +1,51 @@
 package contactscraper.leslieaerts.com.contactscraper;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
-
-import com.leslieaerts.contactscraper.ContactScraper;
-import com.leslieaerts.contactscraper.domain.PhoneContact;
-
-import java.util.List;
+import android.view.View;
+import android.widget.EditText;
 
 
 public class ExampleActivity extends Activity {
 
     ContactFragment contactFragment;
+    EditText filter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_example);
 
+        filter = (EditText) findViewById(R.id.filter);
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
 
         contactFragment = new ContactFragment();
         transaction.replace(R.id.fragment_container, contactFragment).commit();
+        filter.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+contactFragment.setContactList(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
     }
 
     @Override

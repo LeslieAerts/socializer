@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.Contacts;
 
+import com.leslieaerts.contactscraper.R;
 import com.leslieaerts.contactscraper.domain.PhoneContact;
 
 import android.provider.ContactsContract.CommonDataKinds.Phone;
@@ -22,16 +23,17 @@ import java.util.Map;
 /**
  * Created by Leslie on 26-10-2014.
  */
-public class ScrapeSystem {
+class ContactDatabaseAccess {
 
     private final Context context;
 
-    public ScrapeSystem(Context context) {
+    public ContactDatabaseAccess(Context context) {
         this.context = context;
     }
 
     /**
-     * Gets a Bitmap interpretation of contact's photo
+     * Gets a Bitmap representation of contact's photo
+     *
      * @param id
      * @return
      */
@@ -42,11 +44,52 @@ public class ScrapeSystem {
         if (photo != null) {
             return photo;
         }
-        return null;
+
+        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_default_picture);
+        return bitmap;
     }
+
+
+    /**
+     * Get a single contact by name.
+     *
+     * @param partialName
+     * @return
+     */
+    public PhoneContact getPhoneContactByName(String partialName) {
+        PhoneContact contact = new PhoneContact();
+
+        ContentResolver contentResolver = context.getContentResolver();
+        Cursor c = contentResolver.query(Contacts.CONTENT_URI, new String[]{Contacts._ID, Contacts.DISPLAY_NAME_PRIMARY}, Contacts.DISPLAY_NAME_PRIMARY + "LIKE ?", new String[]{partialName}, null);
+
+        if (c.moveToFirst()) {
+
+            while (c.moveToNext()) {
+                String contactId = c.getString(c.getColumnIndex(Contacts.LOOKUP_KEY));
+
+                String contactName = c.getString(c.getColumnIndex(Contacts.DISPLAY_NAME_PRIMARY));
+                contact.setContactId(contactId);
+                Bitmap photo = getContactPhotoByContactId(contactId);
+
+                contact.setContactId(contactId);
+                contact.setDisplayName(contactName);
+                contact.setPhoto(photo);
+
+                Map<String, String> phoneMap = getContactPhoneNumbersById(contactId);
+                contact.addPhoneNumbers(phoneMap);
+
+                Map<String, String> emailsMap = getContactEmailByContactId(contactId);
+                contact.addEmailAddresses(emailsMap);
+            }
+            c.close();
+        }
+        return new PhoneContact();
+    }
+
 
     /**
      * Returns a list of every phone contact available on the phone.
+     *
      * @return
      */
     public List<PhoneContact> getAllPhoneContacts() {
@@ -68,7 +111,7 @@ public class ScrapeSystem {
                 contact.setPhoto(photo);
 
                 //Phone stuff
-                Map<String, String> phoneMap = getContactPhoneNumbersByContactId(contactId);
+                Map<String, String> phoneMap = getContactPhoneNumbersById(contactId);
                 contact.addPhoneNumbers(phoneMap);
 
                 //Email stuff
@@ -85,19 +128,18 @@ public class ScrapeSystem {
 
     /**
      * Returns a map of all the phone numbers a contact has.
+     *
      * @param contactId
      * @return
      */
-    private Map<String, String> getContactPhoneNumbersByContactId(String contactId) {
+    private Map<String, String> getContactPhoneNumbersById(String contactId) {
         Map<String, String> phoneNumbers = new HashMap<String, String>();
 
         Cursor phoneCursor = context.getContentResolver().query(Phone.CONTENT_URI, new String[]{Phone.NUMBER, Phone.TYPE}, Phone.CONTACT_ID + " = ?", new String[]{contactId}, null);
         if (phoneCursor.moveToFirst()) {
             do {
-                String phoneNumber = null;
-                String phoneNumberType = null;
-                phoneNumber = phoneCursor.getString(phoneCursor.getColumnIndex(Phone.NUMBER));
-                phoneNumberType = phoneCursor.getString(phoneCursor.getColumnIndex(Phone.TYPE));
+                String phoneNumber = phoneCursor.getString(phoneCursor.getColumnIndex(Phone.NUMBER));
+                String phoneNumberType = phoneCursor.getString(phoneCursor.getColumnIndex(Phone.TYPE));
                 phoneNumbers.put(phoneNumberType, phoneNumber);
             } while (phoneCursor.moveToNext());
         }
@@ -108,6 +150,7 @@ public class ScrapeSystem {
 
     /**
      * Returns all the email addresses a contact has.
+     *
      * @param contactId
      * @return
      */
@@ -126,28 +169,4 @@ public class ScrapeSystem {
         emailCursor.close();
         return emails;
     }
-
-    /**
-     * Get a single contact by name.
-     * @param name
-     * @return
-     */
-    public PhoneContact getPhoneContactByName(String name) {
-        PhoneContact contact = new PhoneContact();
-
-        ContentResolver contentResolver = context.getContentResolver();
-        Cursor c = contentResolver.query(Contacts.CONTENT_URI, new String[]{Contacts.LOOKUP_KEY}, Contacts.DISPLAY_NAME_PRIMARY + "LIKE ?", new String[]{name}, null);
-
-        if (c.moveToFirst()) {
-
-            while (c.moveToNext()) {
-                String lookup = c.getString(0);
-                contact.setLookupKey(lookup);
-            }
-            c.close();
-        }
-        return new PhoneContact();
-    }
 }
-
-

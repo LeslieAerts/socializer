@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import com.leslieaerts.contactscraper.ContactScraper;
+import com.leslieaerts.contactscraper.util.Socializer;
 import com.leslieaerts.contactscraper.domain.PhoneContact;
 
 import java.util.List;
@@ -20,6 +20,9 @@ import contactscraper.leslieaerts.com.contactscraper.util.ContactAdapter;
 public class ContactFragment extends Fragment {
 
     ListView list;
+    Socializer socializer;
+    ContactAdapter contactAdapter;
+    List<PhoneContact> contacts;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -31,18 +34,26 @@ public class ContactFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_example, container, false);
         list = (ListView) view.findViewById(R.id.list);
-        setContactList();
+        contactAdapter = new ContactAdapter(getActivity(), contacts);
+        list.setAdapter(contactAdapter);
+
         return view;
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        socializer = new Socializer(getActivity());
     }
 
     public void setContactList() {
-        ContactScraper scraper = ContactScraper.getInstance(getActivity());
-        List<PhoneContact> contacts = scraper.getAllPhoneContacts();
-        list.setAdapter(new ContactAdapter(contacts, getActivity()));
+        contacts = socializer.getAllPhoneContacts();
+        contactAdapter.notifyDataSetChanged();
+    }
+
+    public void setContactList(String s) {
+
+        contacts = socializer.getFilteredContacts(s);
+        contactAdapter.notifyDataSetChanged();
     }
 }

@@ -23,7 +23,7 @@ public class ContactAdapter extends BaseAdapter {
     private Context context;
     private List<PhoneContact> contacts;
 
-    public ContactAdapter(List<PhoneContact> contacts, Context context) {
+    public ContactAdapter(Context context, List<PhoneContact> contacts) {
         this.contacts = contacts;
         this.context = context;
     }
