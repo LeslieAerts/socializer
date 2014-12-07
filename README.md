@@ -5,8 +5,7 @@ Simple and easy to use library to scrape contacts from your Android phone for yo
 
 <b>How to use</b>
 
-Simply add this line to your build.gradle:
-//TODO: Find out how the GitHub gradle stuff works.
+//Adding to gradle explanation goes here
 
 Create a Socializer object in your project:
 
