@@ -27,10 +27,6 @@ public class PhoneContact {
         return displayName;
     }
 
-//    public String getLastName() {
-//        return lastName;
-//    }
-
     public Map<String, String> getEmailAddresses() {
         return emailAddresses;
     }

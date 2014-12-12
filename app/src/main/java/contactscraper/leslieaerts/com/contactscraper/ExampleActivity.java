@@ -29,7 +29,9 @@ public class ExampleActivity extends Activity {
 
         contactFragment = new ContactFragment();
         transaction.replace(R.id.fragment_container, contactFragment).commit();
+
         filter.addTextChangedListener(new TextWatcher() {
+
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -37,7 +39,7 @@ public class ExampleActivity extends Activity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-contactFragment.setContactList(s.toString());
+                contactFragment.setContactList(s.toString());
             }
 
             @Override
@@ -45,7 +47,6 @@ contactFragment.setContactList(s.toString());
 
             }
         });
-
     }
 
     @Override
@@ -61,9 +62,11 @@ contactFragment.setContactList(s.toString());
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+
         if (id == R.id.action_settings) {
             return true;
         }
+
         return super.onOptionsItemSelected(item);
     }
 }

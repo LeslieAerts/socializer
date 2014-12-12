@@ -16,6 +16,7 @@ public class Socializer {
     private List<PhoneContact> loadedContacts;
     private Thread loader;
     private ContactListener listener;
+    private boolean threadIsRunning = false;
 
     public Socializer(Context context) {
         scraper = new ContactDatabaseAccess(context);
@@ -24,14 +25,15 @@ public class Socializer {
         loader = new Thread(new Runnable() {
             @Override
             public void run() {
+                threadIsRunning = true;
                 loadedContacts = scraper.getAllPhoneContacts();
-
+                threadIsRunning = false;
                 if (listener != null) {
                     listener.onAllContactsLoaded(loadedContacts);
                 }
             }
         });
-        loader.start();
+        startThreadIfNotRunning();
     }
 
     public PhoneContact getPhoneContactByName(String partialName) {
@@ -43,45 +45,42 @@ public class Socializer {
     }
 
     public List<PhoneContact> getAllPhoneContacts() {
-
-//        startThreadIfPossible();
-//
-//        try {
-//            loader.join();
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
+        waitForThread();
 
         return loadedContacts;
     }
 
     public List<PhoneContact> getFilteredContacts(String filter) {
 
-        startThreadIfPossible();
-
+        waitForThread();
         List<PhoneContact> copyList = new ArrayList<PhoneContact>(loadedContacts);
         List<PhoneContact> filters = new ArrayList<PhoneContact>();
 
         for (PhoneContact contact : copyList) {
-            CharSequence cs = filter;
-            if (contact.getDisplayName().contains(cs)) {
+            CharSequence cs = filter.toLowerCase();
+            if (contact.getDisplayName().toLowerCase().contains(cs)) {
                 filters.add(contact);
             }
         }
         return filters;
     }
 
-    private void startThreadIfPossible() {
-        if (!loader.isAlive()) {
-            loader.start();
-        }
-    }
-
     public void loadPhoneContactsAsync(List<PhoneContact> phoneContacts) {
         throw new UnsupportedOperationException();
     }
 
-    public void setContactListener(ContactListener listener) {
-        this.listener = listener;
+    private void startThreadIfNotRunning() {
+        if (!threadIsRunning) {
+            loader.start();
+        }
+    }
+
+    private void waitForThread()
+    {
+        try {
+            loader.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }
