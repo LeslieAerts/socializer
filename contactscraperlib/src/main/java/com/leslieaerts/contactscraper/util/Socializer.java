@@ -15,6 +15,7 @@ public class Socializer {
     private ContactDatabaseAccess scraper;
     private List<PhoneContact> loadedContacts;
     private Thread loader;
+    private ContactListener listener;
 
     public Socializer(Context context) {
         scraper = new ContactDatabaseAccess(context);
@@ -24,6 +25,10 @@ public class Socializer {
             @Override
             public void run() {
                 loadedContacts = scraper.getAllPhoneContacts();
+
+                if (listener != null) {
+                    listener.onAllContactsLoaded(loadedContacts);
+                }
             }
         });
         loader.start();
@@ -39,23 +44,20 @@ public class Socializer {
 
     public List<PhoneContact> getAllPhoneContacts() {
 
-        if (!loader.isAlive()) {
-            loader.start();
-        }
-        try {
-            loader.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+//        startThreadIfPossible();
+//
+//        try {
+//            loader.join();
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
 
         return loadedContacts;
     }
 
     public List<PhoneContact> getFilteredContacts(String filter) {
 
-        if (!loader.isAlive()) {
-            loader.start();
-        }
+        startThreadIfPossible();
 
         List<PhoneContact> copyList = new ArrayList<PhoneContact>(loadedContacts);
         List<PhoneContact> filters = new ArrayList<PhoneContact>();
@@ -69,7 +71,17 @@ public class Socializer {
         return filters;
     }
 
+    private void startThreadIfPossible() {
+        if (!loader.isAlive()) {
+            loader.start();
+        }
+    }
+
     public void loadPhoneContactsAsync(List<PhoneContact> phoneContacts) {
         throw new UnsupportedOperationException();
+    }
+
+    public void setContactListener(ContactListener listener) {
+        this.listener = listener;
     }
 }

@@ -7,9 +7,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import com.leslieaerts.contactscraper.util.ContactListener;
 import com.leslieaerts.contactscraper.util.Socializer;
 import com.leslieaerts.contactscraper.domain.PhoneContact;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import contactscraper.leslieaerts.com.contactscraper.util.ContactAdapter;
@@ -34,6 +36,7 @@ public class ContactFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_example, container, false);
         list = (ListView) view.findViewById(R.id.list);
+        contacts = new ArrayList<PhoneContact>();
         contactAdapter = new ContactAdapter(getActivity(), contacts);
         list.setAdapter(contactAdapter);
 
@@ -44,6 +47,25 @@ public class ContactFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         socializer = new Socializer(getActivity());
+        socializer.setContactListener(new ContactListener() {
+
+            @Override
+            public void onContactLoaded(PhoneContact contact) {
+
+            }
+
+            @Override
+            public void onAllContactsLoaded(List<PhoneContact> con) {
+                contacts.clear();
+                contacts.addAll(con);
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        contactAdapter.notifyDataSetChanged();
+                    }
+                });
+            }
+        });
     }
 
     public void setContactList() {
