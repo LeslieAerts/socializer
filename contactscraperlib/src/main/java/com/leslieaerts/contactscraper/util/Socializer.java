@@ -105,8 +105,10 @@ public class Socializer {
      * @return
      */
     public List<PhoneContact> getFilteredContacts(final String filter) {
+        filterContacts.clear();
         final List<PhoneContact> copyList = new ArrayList<PhoneContact>();
         copyList.addAll(loadedContacts);
+
 
         //Filtering
         String filterString = filter;
