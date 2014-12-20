@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.leslieaerts.contactscraper.util.ContactListener;
 import com.leslieaerts.contactscraper.util.Socializer;
@@ -36,6 +37,10 @@ public class ContactFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_example, container, false);
         list = (ListView) view.findViewById(R.id.list);
+
+        /**
+         * Create an adapter just like any other
+         */
         contacts = new ArrayList<PhoneContact>();
         contactAdapter = new ContactAdapter(getActivity(), contacts);
         list.setAdapter(contactAdapter);
@@ -46,11 +51,29 @@ public class ContactFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        Toast.makeText(getActivity(), "Loading contacts...", Toast.LENGTH_SHORT).show();
+
+        /**
+         * All you have to do is create a new socializer object and set the listener.
+         * Implement the listener to asynchronously get each contact's data.
+         * If you don't want to use the listener, you can also use the method
+         * socializer.getAllPhoneContacts();
+         * This blocks the thread until the contacts are finished loading.
+         */
         socializer = new Socializer(getActivity());
         socializer.setContactListener(new ContactListener() {
 
+
             @Override
-            public void onContactLoaded(PhoneContact contact) {
+            public void onContactLoaded(final PhoneContact contact) {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        contacts.add(contact);
+                        contactAdapter.notifyDataSetChanged();
+                    }
+                });
 
             }
 
@@ -61,6 +84,7 @@ public class ContactFragment extends Fragment {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        Toast.makeText(getActivity(), "Loaded " + contacts.size() + " contacts.", Toast.LENGTH_SHORT).show();
                         contactAdapter.notifyDataSetChanged();
                     }
                 });
@@ -73,15 +97,15 @@ public class ContactFragment extends Fragment {
         super.onAttach(activity);
     }
 
-    public void setContactList() {
-        contacts.clear();
-        contacts.addAll(socializer.getAllPhoneContacts());
-        contactAdapter.notifyDataSetChanged();
-    }
+    /**
+     * Alternatively, you can use a filter for the name to obtain a specific contact list, filtered with the filterString.
+     * @param filterString
+     */
+    public void loadFilteredContacts(String filterString) {
+        List<PhoneContact> filteredContacts = socializer.getFilteredContacts(filterString);
 
-    public void setContactList(String s) {
         contacts.clear();
-        contacts.addAll(socializer.getFilteredContacts(s));
-        list.setAdapter(contactAdapter);
+        contacts.addAll(filteredContacts);
+        contactAdapter.notifyDataSetChanged();
     }
 }

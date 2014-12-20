@@ -6,10 +6,8 @@ import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.EditText;
 
 
@@ -39,7 +37,7 @@ public class ExampleActivity extends Activity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                contactFragment.setContactList(s.toString());
+                contactFragment.loadFilteredContacts(s.toString());
             }
 
             @Override
