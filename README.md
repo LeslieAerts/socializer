@@ -15,13 +15,14 @@ PhoneContact is a class containing (almost) all info an Android contact can have
 //Adding to gradle explanation goes here
 
 Create a Socializer object in your project:
-
+```java
     Socializer soc = new Socializer(context);
-    
+``` 
+
 There are two ways to obtain contact persons.
 
 1. Implement the listener to load contacts asynchronously.
-	
+```java	
 	soc.setContactListener(new ContactListener() {
 	
 			@Override
@@ -35,13 +36,13 @@ There are two ways to obtain contact persons.
 			}
 			
 	});
-	
-2. Call the (blocking method) getAllPhoneContacts() to get back a list with all contacts.
-
+``` 	
+2. Call the (blocking method) getAllPhoneContacts() to get back a list with all contacts. The socializer object keeps the list of contacts loaded, so this method will not block once the contacts are all loaded already.
+```java	
 	List<PhoneContact> contacts = soc.getAllPhoneContacts();
-
+``` 
 Alternatively, you can use a filter for the name to obtain a specific contact list, filtered with the filterString.
-
+```java	
 	List<PhoneContact> filteredContacts = soc.getFilteredContacts(filterString);
-
+```
 
