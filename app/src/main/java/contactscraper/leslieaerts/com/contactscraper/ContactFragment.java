@@ -70,8 +70,10 @@ public class ContactFragment extends Fragment {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        contacts.add(contact);
-                        contactAdapter.notifyDataSetChanged();
+                        if (!contacts.contains(contact)) {
+                            contacts.add(contact);
+                            contactAdapter.notifyDataSetChanged();
+                        }
                     }
                 });
 
@@ -99,6 +101,7 @@ public class ContactFragment extends Fragment {
 
     /**
      * Alternatively, you can use a filter for the name to obtain a specific contact list, filtered with the filterString.
+     *
      * @param filterString
      */
     public void loadFilteredContacts(String filterString) {
