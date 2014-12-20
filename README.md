@@ -17,10 +17,10 @@ PhoneContact is a class containing (almost) all info an Android contact can have
 Create a Socializer object in your project:
 
     Socializer soc = new Socializer(context);
-    
-There are two ways to obtain contact persons.
 
-1. Implement the listener to load contacts asynchronously.
+This will automatically start a thread which loads all contacts. Now, there are two ways to obtain contact persons.
+
+1. If you want to asynchronously obtain contacts, implement the listener.
 	
 	soc.setContactListener(new ContactListener() {
 	
