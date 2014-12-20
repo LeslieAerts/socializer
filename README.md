@@ -19,7 +19,7 @@ Create a Socializer object in your project:
     Socializer soc = new Socializer(context);
 ``` 
 
-There are two ways to obtain contact persons.
+<b>Configuration</b>
 
 1. Implement the listener to load contacts asynchronously.
 ```java	
@@ -36,10 +36,13 @@ There are two ways to obtain contact persons.
 			}
 			
 	});
-``` 	
-2. Call the (blocking method) getAllPhoneContacts() to get back a list with all contacts. The socializer object keeps the list of contacts loaded, so this method will not block once the contacts are all loaded already.
+```
+
+This listener listens to events sent from the loading thread. If all contacts are loaded however, you can simply use the (blocking method) getAllPhoneContacts() to get back a list with all contacts. The socializer object keeps the list of contacts loaded, so this method will not block once the contacts are all loaded already. You can use isDoneLoadingContacts() if you prefer not to wait for the blocking method and check if the contacts are available already.
 ```java	
+if(soc.isDoneLoadingContacts) {
 	List<PhoneContact> contacts = soc.getAllPhoneContacts();
+}
 ``` 
 Alternatively, you can use a filter for the name to obtain a specific contact list, filtered with the filterString.
 ```java	
