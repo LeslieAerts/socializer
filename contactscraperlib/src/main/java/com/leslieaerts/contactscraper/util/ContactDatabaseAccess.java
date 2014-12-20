@@ -26,6 +26,7 @@ import java.util.Map;
 class ContactDatabaseAccess {
 
     private final Context context;
+    private DatabaseListener dbListener;
 
     public ContactDatabaseAccess(Context context) {
         this.context = context;
@@ -63,7 +64,6 @@ class ContactDatabaseAccess {
         Cursor c = contentResolver.query(Contacts.CONTENT_URI, new String[]{Contacts._ID, Contacts.DISPLAY_NAME_PRIMARY}, Contacts.DISPLAY_NAME_PRIMARY + "LIKE ?", new String[]{partialName}, null);
 
         if (c.moveToFirst()) {
-
             while (c.moveToNext()) {
                 String contactId = c.getString(c.getColumnIndex(Contacts.LOOKUP_KEY));
 
@@ -119,6 +119,9 @@ class ContactDatabaseAccess {
                 contact.addEmailAddresses(emailsMap);
 
                 contacts.add(contact);
+                if (dbListener != null) {
+                    dbListener.onProgress(contact);
+                }
             } while (idCursor.moveToNext());
         }
         idCursor.close();
@@ -168,5 +171,10 @@ class ContactDatabaseAccess {
         }
         emailCursor.close();
         return emails;
+    }
+
+    public void setDatabaseListener(DatabaseListener listener)
+    {
+        this.dbListener = listener;
     }
 }

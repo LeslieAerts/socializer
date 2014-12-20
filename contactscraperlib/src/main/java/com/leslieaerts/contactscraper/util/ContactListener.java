@@ -9,7 +9,7 @@ import java.util.List;
  */
 public interface ContactListener {
 
-    public void  onContactLoaded(PhoneContact contact);
+    public void onContactLoaded(PhoneContact contact);
 
     public void onAllContactsLoaded(List<PhoneContact> contacts);
 }

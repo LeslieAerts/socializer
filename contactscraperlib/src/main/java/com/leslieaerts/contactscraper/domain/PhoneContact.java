@@ -6,10 +6,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * A contactperson that's in your phone's local contact database.
  * Created by Leslie on 25-10-2014.
  */
 public class PhoneContact {
-
 
     private String displayName;
     private Map<String, String> emailAddresses;
@@ -72,7 +72,7 @@ public class PhoneContact {
     }
 
     public String getMainPhoneNumber() {
-        String phoneNumber = "No phonenumber found";
+        String phoneNumber = "";
         for (Map.Entry<String, String> entry : phoneNumbers.entrySet()) {
             phoneNumber = entry.getValue();
         }
@@ -80,7 +80,7 @@ public class PhoneContact {
     }
 
     public String getMainEmailAddress() {
-        String emailAddress = "No email found";
+        String emailAddress = "";
         for (Map.Entry<String, String> map : emailAddresses.entrySet()) {
             emailAddress = map.getValue();
             break;
