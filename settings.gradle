@@ -1,1 +1,1 @@
-include ':app', ':contactscraperlib'
+include ':app', ':socializerlib'

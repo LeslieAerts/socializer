@@ -1,4 +1,4 @@
-package com.leslieaerts.contactscraper;
+package com.leslieaerts.socializer;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

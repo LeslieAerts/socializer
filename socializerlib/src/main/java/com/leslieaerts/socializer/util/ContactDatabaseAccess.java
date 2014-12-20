@@ -1,4 +1,4 @@
-package com.leslieaerts.contactscraper.util;
+package com.leslieaerts.socializer.util;
 
 import android.content.ContentResolver;
 import android.content.Context;
@@ -7,13 +7,12 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.ContactsContract;
+import android.provider.ContactsContract.CommonDataKinds.Phone;
 import android.provider.ContactsContract.Contacts;
 
-import com.leslieaerts.contactscraper.R;
-import com.leslieaerts.contactscraper.domain.PhoneContact;
+import com.leslieaerts.socializer.domain.PhoneContact;
 
-import android.provider.ContactsContract.CommonDataKinds.Phone;
-
+import com.leslieaerts.socializer.R;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;

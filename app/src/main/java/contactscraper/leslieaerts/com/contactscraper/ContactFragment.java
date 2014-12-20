@@ -9,9 +9,9 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.leslieaerts.contactscraper.util.ContactListener;
-import com.leslieaerts.contactscraper.util.Socializer;
-import com.leslieaerts.contactscraper.domain.PhoneContact;
+import com.leslieaerts.socializer.util.ContactListener;
+import com.leslieaerts.socializer.util.Socializer;
+import com.leslieaerts.socializer.domain.PhoneContact;
 
 import java.util.ArrayList;
 import java.util.List;

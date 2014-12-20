@@ -1,4 +1,4 @@
-package com.leslieaerts.contactscraper.domain;
+package com.leslieaerts.socializer.domain;
 
 import android.graphics.Bitmap;
 

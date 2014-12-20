@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.leslieaerts.contactscraper">
+    package="com.leslieaerts.socializer">
 
     <application
         android:allowBackup="true"

@@ -1,6 +1,6 @@
-package com.leslieaerts.contactscraper.util;
+package com.leslieaerts.socializer.util;
 
-import com.leslieaerts.contactscraper.domain.PhoneContact;
+import com.leslieaerts.socializer.domain.PhoneContact;
 
 /**
  * Created by Leslie on 13-12-2014.

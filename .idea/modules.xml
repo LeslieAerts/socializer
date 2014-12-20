@@ -4,7 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/contactscraper.iml" filepath="$PROJECT_DIR$/contactscraper.iml" />
-      <module fileurl="file://$PROJECT_DIR$/contactscraperlib/contactscraperlib.iml" filepath="$PROJECT_DIR$/contactscraperlib/contactscraperlib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/socializerlib/socializerlib.iml" filepath="$PROJECT_DIR$/socializerlib/socializerlib.iml" />
     </modules>
   </component>
 </project>

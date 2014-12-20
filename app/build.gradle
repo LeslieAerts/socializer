@@ -20,6 +20,6 @@ android {
 }
 
 dependencies {
-    compile project(':contactscraperlib')
+    compile project(':socializerlib')
     compile fileTree(dir: 'libs', include: ['*.jar'])
 }

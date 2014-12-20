@@ -1,9 +1,8 @@
-package com.leslieaerts.contactscraper.util;
+package com.leslieaerts.socializer.util;
 
 import android.content.Context;
-import android.util.Log;
 
-import com.leslieaerts.contactscraper.domain.PhoneContact;
+import com.leslieaerts.socializer.domain.PhoneContact;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +22,7 @@ public class Socializer {
     private Thread loader;
     private ContactListener listener;
     private boolean threadIsRunning = false;
+    private boolean allContactsLoaded;
 
     public Socializer(Context context) {
         database = new ContactDatabaseAccess(context);
@@ -54,6 +54,7 @@ public class Socializer {
 
                 if (listener != null) {
                     listener.onAllContactsLoaded(loadedContacts);
+                    allContactsLoaded = true;
                 }
             }
         });
@@ -109,7 +110,6 @@ public class Socializer {
         final List<PhoneContact> copyList = new ArrayList<PhoneContact>();
         copyList.addAll(loadedContacts);
 
-
         //Filtering
         String filterString = filter;
         for (PhoneContact contact : copyList) {
@@ -121,6 +121,9 @@ public class Socializer {
         return filterContacts;
     }
 
+    public boolean isDoneLoadingContacts() {
+        return allContactsLoaded;
+    }
 
     /**
      * Sets the listener for events of loading contacts

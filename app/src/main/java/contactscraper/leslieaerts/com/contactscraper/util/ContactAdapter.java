@@ -9,7 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.leslieaerts.contactscraper.domain.PhoneContact;
+import com.leslieaerts.socializer.domain.PhoneContact;
 
 import java.util.List;
 
