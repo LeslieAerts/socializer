@@ -1,4 +1,7 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.jfrog.bintray'
+
+String projectVersion = "0.1.0"
 
 android {
     compileSdkVersion 19
@@ -6,9 +9,11 @@ android {
 
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 19
+        targetSdkVersion 21
         versionCode 1
-    versionName "0.1.0"
+        versionName projectVersion
+        project.archivesBaseName = "socializer"
+        project.version = android.defaultConfig.versionName
     }
     buildTypes {
         release {
@@ -17,6 +22,50 @@ android {
     }
 }
 
+bintray {
+    user = project.hasProperty('bintray_user') ? project.getProperty('bintray_user') : ''
+    key = project.hasProperty('bintray_apikey') ? project.getProperty('bintray_apikey') : ''
+
+    dryRun = false
+    publish = false
+    pkg {
+        repo = 'gradle'
+        name = 'socializer'
+        desc = 'Easy way to collect phone contacts for use in apps.'
+        websiteUrl = 'https://github.com/leslieaerts/socializer'
+        issueTrackerUrl = 'https://github.com/leslieaerts/socializer/issues'
+        vcsUrl = 'https://github.com/leslieaerts/socializer.git'
+        licenses = ['Apache-2.0']
+        labels = ['contacts', 'android', 'social']
+        publicDownloadNumbers = true
+        version {
+            name = projectVersion
+            vcsTag = projectVersion
+            attributes = ['gradle-plugin': 'com.leslieaerts.socializer:com.leslieaerts:socializer-gradle-plugin']
+        }
+    }
+}
+
+task writeNewPom << {
+    pom {
+        project {
+            groupId 'com.leslieaerts'
+            artifactId 'socializer'
+            version projectVersion
+
+            inceptionYear '2014'
+            licenses {
+                license {
+                    name 'Apache 2.0'
+                    url 'http://opensource.org/licenses/aoache2.0.php'
+                    distribution 'repo'
+                }
+            }
+        }
+    }.writeTo("$buildDir/" + projectVersion + ".pom")
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 }
+
