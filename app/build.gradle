@@ -20,6 +20,6 @@ android {
 }
 
 dependencies {
-    compile project(':socializerlib')
+    compile 'com.leslieaerts.socializer:com.leslieaerts:socializer-gradle-plugin'
     compile fileTree(dir: 'libs', include: ['*.jar'])
 }
