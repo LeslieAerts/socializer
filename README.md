@@ -24,6 +24,7 @@ Create a Socializer object in your project:
 ``` 
 
 <b>Configuration</b>
+
 The socializer starts a secondary thread automatically, which loads all contacts in the background.
 
 Implement the listener to listen to events from this thread.
