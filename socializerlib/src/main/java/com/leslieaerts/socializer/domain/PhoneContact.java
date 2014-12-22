@@ -73,8 +73,10 @@ public class PhoneContact {
 
     public String getMainPhoneNumber() {
         String phoneNumber = "";
+
         for (Map.Entry<String, String> entry : phoneNumbers.entrySet()) {
             phoneNumber = entry.getValue();
+            break;
         }
         return phoneNumber;
     }

@@ -84,11 +84,11 @@ public class Socializer {
     /**
      * Clears all loaded contacts and start reloading them.
      */
-    public void reloadContacts()
-    {
+    public void reloadContacts() {
         loadedContacts.clear();
         startThreadIfNotRunning();
     }
+
     /**
      * Return all phone contacts after they have been loaded.
      *
@@ -99,23 +99,46 @@ public class Socializer {
         return loadedContacts;
     }
 
+
     /**
      * Returns a list of contacts based on a string filter
      *
      * @param filter
      * @return
      */
-    public List<PhoneContact> getFilteredContacts(final String filter) {
+    public List<PhoneContact> getFilteredContacts(String filter) {
+        return getFilteredContacts(filter, false);
+    }
+
+    /**
+     * Returns a list of contacts based on a string filter
+     *
+     * @param filter
+     * @return
+     */
+    public List<PhoneContact> getFilteredContacts(String filter, boolean caseSensitive) {
         filterContacts.clear();
         final List<PhoneContact> copyList = new ArrayList<PhoneContact>();
         copyList.addAll(loadedContacts);
 
-        //Filtering
-        String filterString = filter;
+        CharSequence cs;
+        if (caseSensitive) {
+             cs = filter;
+        }
+        else
+        {
+            cs = filter.toLowerCase();
+        }
+
         for (PhoneContact contact : copyList) {
-            CharSequence cs = filterString.toLowerCase();
-            if (contact.getDisplayName().toLowerCase().contains(cs)) {
-                filterContacts.add(contact);
+            if (caseSensitive) {
+                if (contact.getDisplayName().contains(cs)) {
+                    filterContacts.add(contact);
+                }
+            } else {
+                if (contact.getDisplayName().toLowerCase().contains(cs)) {
+                    filterContacts.add(contact);
+                }
             }
         }
         return filterContacts;
@@ -127,6 +150,7 @@ public class Socializer {
 
     /**
      * Sets the listener for events of loading contacts
+     *
      * @param listener
      */
     public void setContactListener(ContactListener listener) {
