@@ -4,7 +4,7 @@ socializer.library
 Simple and easy to use library to scrape contacts from your Android phone for you to use in your apps.
 
 PhoneContact is a class containing (almost) all info an Android contact can have.
-* displayName : String
+* displayName : String //Contains both first and last name if the contact has them
 * contactPhoto : Bitmap
 * emailAddressses : Map<String, String>(emailAddressType, emailAddress)
 * phoneNumbers : Map<String, String> (phoneNumberType, phoneNumber)
