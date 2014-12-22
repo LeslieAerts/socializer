@@ -12,11 +12,10 @@ PhoneContact is a class containing (almost) all info an Android contact can have
 
 <b>How to use</b>
 
-Add this to your build.gradle:
+Download the android library (.aar) from here and import it into your project:
+https://bintray.com/artifact/download/leslieaerts/gradle/com/leslieaerts/socializer/0.1.0/socializer-0.1.0.aar
 
-	dependencies {
-			compile 'com.leslieaerts.socializer:com.leslieaerts:socializer-gradle-plugin'
-	}
+(jcenter package coming soon)
 
 Create a Socializer object in your project:
 ```java
