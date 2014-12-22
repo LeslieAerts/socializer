@@ -44,7 +44,8 @@ Implement the listener to listen to events from this thread.
 	});
 ```
 
-This listener listens to events sent from the loading thread. If all contacts are loaded however, you can simply use the (blocking method) getAllPhoneContacts() to get back a list with all contacts. The socializer object keeps the list of contacts loaded, so this method will not block once the contacts are all loaded already. You can use isDoneLoadingContacts() if you prefer not to wait for the blocking method and check if the contacts are available already.
+Once all contacts are loaded, no further events will be fired. You can simply use the method getAllPhoneContacts() to get back the loaded list with all contacts. The socializer object keeps the list of contacts loaded, but the method will block if the loading thread hasn't finished loading yet. You can use isDoneLoadingContacts() if you prefer not to wait for the blocking method and check if the contacts are available already.
+
 ```java	
 if(soc.isDoneLoadingContacts) {
 	List<PhoneContact> contacts = soc.getAllPhoneContacts();
@@ -52,6 +53,6 @@ if(soc.isDoneLoadingContacts) {
 ``` 
 Alternatively, you can use a filter for the name to obtain a specific contact list, filtered with the filterString.
 ```java	
-	List<PhoneContact> filteredContacts = soc.getFilteredContacts(filterString);
+List<PhoneContact> filteredContacts = soc.getFilteredContacts(filterString);
 ```
 
