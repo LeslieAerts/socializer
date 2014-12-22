@@ -32,12 +32,12 @@ Implement the listener to listen to events from this thread.
 soc.setContactListener(new ContactListener() {
 
 	@Override
-    	public void onContactLoaded(PhoneContact contact) {
+	public void onContactLoaded(PhoneContact contact) {
 	//Gets called each time a contact is loaded.
 	}
 		
 	@Override
-    	public void onAllContactsLoaded(List<PhoneContact> contacts) {
+	public void onAllContactsLoaded(List<PhoneContact> contacts) {
 	//Gets called when socializer is finished loading.
 	}
 });
