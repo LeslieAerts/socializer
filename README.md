@@ -9,19 +9,19 @@ PhoneContact is a class containing (almost) all info an Android contact can have
 * emailAddressses : Map<String, String>(emailAddressType, emailAddress)
 * phoneNumbers : Map<String, String> (phoneNumberType, phoneNumber)
 
-<b>How to use</b>
+<b>Setup</b>
 
 Download the android library (.aar) from here and import it into your project:
 https://bintray.com/artifact/download/leslieaerts/gradle/com/leslieaerts/socializer/0.1.0/socializer-0.1.0.aar
 
 (jcenter package coming soon)
 
+<b>Using socializer</b>
+
 Create a Socializer object in your project:
 ```java
 Socializer soc = new Socializer(context);
 ``` 
-
-<b>Configuration</b>
 
 The socializer starts a secondary thread automatically, which loads all contacts in the background.
 
