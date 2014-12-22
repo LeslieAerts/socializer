@@ -19,7 +19,7 @@ https://bintray.com/artifact/download/leslieaerts/gradle/com/leslieaerts/sociali
 
 Create a Socializer object in your project:
 ```java
-    Socializer soc = new Socializer(context);
+Socializer soc = new Socializer(context);
 ``` 
 
 <b>Configuration</b>
@@ -29,19 +29,18 @@ The socializer starts a secondary thread automatically, which loads all contacts
 Implement the listener to listen to events from this thread.
 
 ```java	
-	soc.setContactListener(new ContactListener() {
-	
-			@Override
-            public void onContactLoaded(PhoneContact contact) {
-			//Gets called each time a contact is loaded.
-			}
-			
-			@Override
-            public void onAllContactsLoaded(List<PhoneContact> contacts) {
-			//Gets called when socializer is finished loading.
-			}
-			
-	});
+soc.setContactListener(new ContactListener() {
+
+	@Override
+    	public void onContactLoaded(PhoneContact contact) {
+	//Gets called each time a contact is loaded.
+	}
+		
+	@Override
+    	public void onAllContactsLoaded(List<PhoneContact> contacts) {
+	//Gets called when socializer is finished loading.
+	}
+});
 ```
 
 Once all contacts are loaded, no further events will be fired. You can simply use the method getAllPhoneContacts() to get back the loaded list with all contacts. The socializer object keeps the list of contacts loaded, but the method will block if the loading thread hasn't finished loading yet. You can use isDoneLoadingContacts() if you prefer not to wait for the blocking method and check if the contacts are available already.
