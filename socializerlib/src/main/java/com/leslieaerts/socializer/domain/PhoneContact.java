@@ -11,13 +11,39 @@ import java.util.Map;
  */
 public class PhoneContact {
 
+    /**
+     * The name used when displaying the contact.
+     */
     private String displayName;
+
+    /**
+     * A map containing all the contact's email addresses, Key = type of email, Value = Email address
+     */
     private Map<String, String> emailAddresses;
+
+    /**
+     * A map containing all the contact's phonenumbers, Key = type of phone number, Value = phone numbers
+     */
     private Map<String, String> phoneNumbers;
+
+    /**
+     * The contact's display photo
+     */
     private Bitmap photo;
+
+    /**
+     * The key used to find the contact in the contact database
+     */
     private String lookupKey;
+
+    /**
+     * The id for the contact in the database
+     */
     private String contactId;
 
+    /**
+     * Constructor
+     */
     public PhoneContact() {
         this.emailAddresses = new HashMap<String, String>();
         this.phoneNumbers = new HashMap<String, String>();
@@ -63,14 +89,28 @@ public class PhoneContact {
         this.photo = photo;
     }
 
+    /**
+     * Add a phonenumber to the map
+     * @param phoneNumber
+     * @param phoneNumberType
+     */
     public void addPhoneNumber(String phoneNumber, String phoneNumberType) {
         phoneNumbers.put(phoneNumberType, phoneNumber);
     }
 
+    /**
+     * Add an email address to the map
+     * @param type
+     * @param address
+     */
     public void addEmailAddress(String type, String address) {
         emailAddresses.put(type, address);
     }
 
+    /**
+     * Gets the first phonenumber in the map. For debugging purposes only
+     * @return The first phonenumber, or an empty string if nothing can be found.
+     */
     public String getMainPhoneNumber() {
         String phoneNumber = "";
 
@@ -90,10 +130,18 @@ public class PhoneContact {
         return emailAddress;
     }
 
+    /**
+     * Adds multiple phone numbers at once
+     * @param phoneMap
+     */
     public void addPhoneNumbers(Map<String, String> phoneMap) {
         this.phoneNumbers.putAll(phoneMap);
     }
 
+    /**
+     * Adds multiple email addresses at once
+     * @param emailsMap
+     */
     public void addEmailAddresses(Map<String, String> emailsMap) {
         this.emailAddresses.putAll(emailsMap);
     }

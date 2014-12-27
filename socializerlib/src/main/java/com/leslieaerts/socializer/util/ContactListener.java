@@ -9,6 +9,10 @@ import java.util.List;
  */
 public interface ContactListener {
 
+    /**
+     * Event thrown when all contacts are loaded
+     * @param contact
+     */
     public void onContactLoaded(PhoneContact contact);
 
     public void onAllContactsLoaded(List<PhoneContact> contacts);

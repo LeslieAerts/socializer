@@ -24,6 +24,10 @@ public class Socializer {
     private boolean threadIsRunning = false;
     private boolean allContactsLoaded;
 
+    /**
+     * Constructor. Context required for the database
+     * @param context
+     */
     public Socializer(Context context) {
         database = new ContactDatabaseAccess(context);
         loadedContacts = new ArrayList<PhoneContact>();

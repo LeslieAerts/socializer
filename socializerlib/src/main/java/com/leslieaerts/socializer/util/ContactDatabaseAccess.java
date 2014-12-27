@@ -27,7 +27,7 @@ class ContactDatabaseAccess {
     private final Context context;
     private DatabaseListener dbListener;
 
-    public ContactDatabaseAccess(Context context) {
+    ContactDatabaseAccess(Context context) {
         this.context = context;
     }
 
@@ -172,6 +172,10 @@ class ContactDatabaseAccess {
         return emails;
     }
 
+    /**
+     * Sets the database listener
+     * @param listener
+     */
     public void setDatabaseListener(DatabaseListener listener)
     {
         this.dbListener = listener;
