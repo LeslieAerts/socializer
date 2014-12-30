@@ -11,10 +11,11 @@ PhoneContact is a class containing (almost) all info an Android contact can have
 
 <b>Setup</b>
 
-Download the android library (.aar) from here and import it into your project:
-https://bintray.com/artifact/download/leslieaerts/gradle/com/leslieaerts/socializer/0.1.0/socializer-0.1.0.aar
-
-(jcenter package coming soon)
+Add
+```
+    compile 'com.leslieaerts:socializer:0.1.1@aar'
+```
+to your project.
 
 <b>Using socializer</b>
 
