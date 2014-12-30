@@ -13,7 +13,7 @@ PhoneContact is a class containing (almost) all info an Android contact can have
 
 Add
 ```
-    compile 'com.leslieaerts:socializer:0.1.1@aar'
+compile 'com.leslieaerts:socializer:0.1.1@aar'
 ```
 to your project.
 
